@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-ocom"
+version="0.0.1"
+xmlns="http://apache.org/cordova/ns/plugins/1.0"
+xmlns:android="http://schemas.android.com/apk/res/android">
+   <engines>
+      <engine name="cordova" version=">=3.9.1" /><!-- Needs cordova/urlutil -->
+    </engines>
+
+  <name>ocom</name>
+  <description>Allow send message from Javascript to Native</description>
+
+  <js-module name="ocom" src="www/ocom.js">
+    <clobbers target="ocom" />
+  </js-module>
+
+
+  <platform name="android">
+    <config-file parent="/*" target="res/xml/config.xml">
+      <feature name="ocom">
+        <param name="android-package" value="org.bsc.cordova.CDVOcom" />
+      </feature>
+    </config-file>
+    <config-file parent="/*" target="AndroidManifest.xml">
+    </config-file>
+    <source-file src="src/android/CDVOcom.java" target-dir="src/org/bsc/cordova" />
+    <source-file src="libs/decoderapijni.jar" target-dir="libs" />
+    <source-file src="libs/handheldApi.jar" target-dir="libs" />
+    <source-file src="libs/jniLibs/" target-dir="jniLibs" />
+    <framework src="com.android.support:support-v4:26+" />
+  </platform>
+
+</plugin>

@@ -1,0 +1,27 @@
+{
+  "name": "cordova-plugin-ocom",
+  "version": "0.0.1",
+  "description": "",
+  "cordova": {
+    "id": "cordova-plugin-ocom",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "engines": {
+    "cordovaDependencies": {
+      "2.2.1": {
+        "cordova": ">3.9.0"
+      },
+      "2.3.0": {
+        "cordova": ">4.0.0"
+      }
+    }
+  },
+  "author": "hsalinas",
+  "license": "MIT"
+}

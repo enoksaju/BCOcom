@@ -29,6 +29,7 @@ plugins/android.json
 plugins/ios.json
 www/
 !plugins_src/ocom/www
+!ionic-native/src/@ionic-native/plugins
 $RECYCLE.BIN/
 
 .DS_Store

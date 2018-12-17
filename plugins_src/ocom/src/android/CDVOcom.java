@@ -38,7 +38,7 @@ public class CDVOcom extends CordovaPlugin {
     public void handleMessage(android.os.Message msg) {
       if (msg.what == Barcode1DManager.Barcode1D) {
         String data = msg.getData().getString("data");
-        Log.d("hs", "los datos del codigo de barras son:" + data);
+        Log.d(TAG, "los datos del codigo de barras son:" + data);
         BarCodeResult = data;
         sendScanMessage();
       }
@@ -140,14 +140,20 @@ public class CDVOcom extends CordovaPlugin {
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     if (action.equals("start")) {
-
+      Log.d(TAG, "starting...");
       Barcode1DManager.Open(mHandler);
-      receive = new KeyReceiver();
+      Barcode1DManager.Scan();    
+      Log.d(TAG, "rigistering key receiver");
+      keyReceiver = new KeyReceiver();
       // Registered radio receivers
       IntentFilter filter = new IntentFilter();
       filter.addAction("android.rfid.FUN_KEY");
       filter.addAction("android.intent.action.FUN_KEY");
-      registerReceiver(receive, filter);
+      // registerReceiver(keyReceiver, filter);
+      Context context = this.cordova.getActivity().getApplicationContext();
+
+      context.registerReceiver(keyReceiver, filter);
+      Log.d(TAG, "starter completed");
 
     } else if (action.equals("add1DScanListener")) {
       final BroadcastReceiver r = new BroadcastReceiver() {
@@ -157,13 +163,15 @@ public class CDVOcom extends CordovaPlugin {
           fireEvent("scanner.read", toJsonObject(b));
         }
       };
-      registerReceiver(r, new IntentFilter("scanner.read"));
+      Context context = this.cordova.getActivity().getApplicationContext();
+      context.registerReceiver(r, new IntentFilter("scanner.read"));
       receiverMap.put("scanner.read", r);
       callbackContext.success();
     } else if (action.equals("remove1DScanListener")) {
       final BroadcastReceiver r = receiverMap.remove("scanner.read");
       if (r != null) {
-        unregisterReceiver(r);
+        Context context = this.cordova.getActivity().getApplicationContext();
+        context.unregisterReceiver(r);
       }
       callbackContext.success();
     } else {
@@ -308,7 +316,7 @@ public class CDVOcom extends CordovaPlugin {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+      Log.d(TAG, "receiving Key");
       boolean defaultdown = false;
       int keycode = intent.getIntExtra("keyCode", 0);
 

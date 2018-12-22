@@ -13,6 +13,15 @@ import { Injectable } from '@angular/core';
 import { Cordova, IonicNativePlugin, Plugin } from '@ionic-native/core';
 import { Observable } from 'rxjs/Observable';
 
+export interface ICodeBarData {
+  data: string;
+}
+
+export interface IKeyFunctionEvent {
+  key: string;
+  button: string;
+}
+
 /**
  * @name Ocom
  * @description
@@ -24,13 +33,19 @@ import { Observable } from 'rxjs/Observable';
  *
  *
  * constructor(private ocom: Ocom) {
- *  this.ocom.start();
+ *  this.ocom.start('scan');
+ *
+ *  this.ocom.addOneDScanListener()
+ *      .subscribe(data => console.log(data.data));
+ *
+ *  this.ocom.addKeyFPressedListener()
+ *      .subscribe(data => {
+ *        console.log(data.key);
+ *        console.log(data.button);
+ *      });
  * }
  *
  * ...
- *
- *
- *
  * ```
  */
 @Plugin({
@@ -42,23 +57,53 @@ import { Observable } from 'rxjs/Observable';
 @Injectable()
 export class Ocom extends IonicNativePlugin {
   /**
-   * This function listen to an event sent from the native code
+   * This function listens to the event of the 1D bar code reader.
    * @return {Observable<any>} Returns an observable to watch when an event is received
    */
   @Cordova({
     observable: true,
-    clearFunction: 'remove1DScanListener',
+    clearFunction: 'removeOneDScanListener',
     clearWithArgs: true,
   })
-  add1DScanListener(): Observable<any> {
+  addOneDScanListener(): Observable<ICodeBarData> {
     return;
   }
 
+  /**
+   * This function listens to the function keyboard event.
+   * @return {Observable<any>} Returns an observable to watch when an event is received
+   */
   @Cordova({
-    successIndex: 0,
-    errorIndex: 1,
+    observable: true,
+    clearFunction: 'removeKeyFPressedListener',
+    clearWithArgs: true,
   })
-  start(): Promise<any> {
+  addKeyFPressedListener(): Observable<IKeyFunctionEvent> {
+    return;
+  }
+
+  /**
+   *
+   * ```
+   * Example
+   *
+   * this.ocom.start(
+   *   "scan, scan_right",
+   *   ()=>{},
+   *   e=> console.log(e)
+   * )
+   * ```
+   *
+   * @param buttons They should be the names of the buttons separated by comma:
+   * ```
+   * ["scan, scan_right, f1, right, left"]
+   * ```
+   */
+  @Cordova({
+    successIndex: 1,
+    errorIndex: 2,
+  })
+  start(buttons?: string): Promise<any> {
     return;
   }
 }

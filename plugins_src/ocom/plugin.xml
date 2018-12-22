@@ -26,7 +26,8 @@ xmlns:android="http://schemas.android.com/apk/res/android">
     <source-file src="src/android/CDVOcom.java" target-dir="src/org/bsc/cordova" />
     <source-file src="libs/decoderapijni.jar" target-dir="libs" />
     <source-file src="libs/handheldApi.jar" target-dir="libs" />
-    <source-file src="libs/jniLibs/" target-dir="jniLibs" />
+    <source-file src="libs/jniLibs/armeabi" target-dir="jniLibs" />
+    <source-file src="libs/jniLibs/armeabi-v7a" target-dir="jniLibs" />
     <framework src="com.android.support:support-v4:26+" />
   </platform>
 
